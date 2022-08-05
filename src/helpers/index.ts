@@ -1,3 +1,4 @@
+
 export const BlankMethod = () => { };
 
 const header = "%cNthity-WithMenuBar"

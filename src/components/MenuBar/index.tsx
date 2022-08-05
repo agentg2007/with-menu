@@ -1,77 +1,60 @@
-import React, { useId, useMemo } from "react";
-import { warn } from "../../helpers";
-import { useMenuComponents, useMenuStyles } from "../../MenuProvider";
-import { MenuBarProps, MenuClasses, MenuItemType } from "../../models";
+import React, { useId } from "react";
+import styled from "styled-components";
+import { MenuBarProps, MenuClasses, MenuTreeType, UIElement } from "../../models";
+import { useMenuComponents, useMenuStyles } from "../../providers/MenuProvider";
 
-const MenuBar = ({
+const MenuBar = styled(({
+    className = "",
     items = [],
     classes,
-    disabled,
-}: MenuBarProps) => {
+}: UIElement<MenuBarProps>) => {
     const componentId = useId();
     const { Container, Menu } = useMenuComponents();
 
     const css = useMenuStyles(classes);
-    const menuTree = useMemo(() => {
-        const duplicates = items.filter((item, index, source) => source.findIndex(i => i.id === item.id) != index);
-        if (duplicates.length > 0) {
-            warn("Duplicate menu found.", duplicates);
-        }
-        return buildTree(items);
-    }, [items]);
-
-    return <Container className={css.menuPanel}>
+    return <Container className={`${className} ${css.menuPanel}`}>
         <Menu className={css.menuBar}>
             {
-                menuTree.map((m, index) => <MenuItemComponent
+                items.map((m, index) => <MenuItemComponent
                     key={`MenuBarItem${componentId}@${m.item.id}#${index}`}
                     item={m} classes={css}
                 />)
             }
         </Menu>
     </Container>
-};
+})`
+    background-color: ${p => p.theme.menuPanel.bgColor};
+`;
 MenuBar.displayName = "MenuBar";
 export default MenuBar;
 
-type MenuTreeType = {
-    item: MenuItemType;
-    path: string[];
-    children: MenuTreeType[];
-};
-const buildTree = (
-    items: MenuItemType[], parentId?: string, path: string[] = []
-): MenuTreeType[] => items
-    .filter(i => i.parentId === parentId)
-    .map<MenuTreeType>(i => ({
-        item: i,
-        path: path.concat(i.id),
-        children: buildTree(items, i.id, path.concat(i.id)),
-    }));
-
-type MenuItemComponentProps = {
+type MenuItemComponentProps = UIElement<{
     item: MenuTreeType;
     classes: MenuClasses;
-}
-const MenuItemComponent = ({
+}>
+const MenuItemComponent = styled(({
+    className = "",
     item: { item, children },
     classes: css
 }: MenuItemComponentProps) => {
     const componentId = useId();
-    const { Button, Link, Menu, MenuItem } = useMenuComponents();
+    const { Button, Container, Link, Menu, MenuItem } = useMenuComponents();
     return <MenuItem className={css.menuItem}>
-        {
-            item.type === "button"
-                ? <Button className={css.menuLink}
-                    children={item.title}
-                    onClick={e => item.onClick?.(item)}
-                />
-                : <Link className={css.menuLink}
-                    href={item.url}
-                    title={item.title}
-                    children={item.title}
-                />
-        }
+        <Container className={className}>
+            {
+                item.type === "button"
+                    ? <Button className={css.menuLink}
+                        children={item.title}
+                        onClick={e => item.onClick?.(item)}
+                    />
+                    : <Link className={css.menuLink}
+                        href={item.url}
+                        title={item.title}
+                        children={item.title}
+                    />
+            }
+        </Container>
+
         {
             children.length > 0 ? <Menu className={css.menuBar}>
                 {
@@ -83,5 +66,18 @@ const MenuItemComponent = ({
             </Menu> : null
         }
     </MenuItem>
-};
+})`
+    padding: ${p => {
+        const { spacing } = p.theme;
+        return `${spacing}px ${spacing / 2}px ${spacing}px ${p.item.path.length * spacing}px `;
+    }}; 
+    background-color: ${p => {
+        const { selected, texts } = p.theme;
+        return p.item.selected ? selected.bgColor : texts.bgColor;
+    }};
+    color: ${p => {
+        const { selected, texts } = p.theme;
+        return p.item.selected ? selected.textColor : texts.textColor;
+    }};
+`;
 MenuItemComponent.displayName = "MenuItemComponent";

@@ -1,16 +1,20 @@
+import _ from "lodash";
 import React, { createContext, PropsWithChildren, useContext, useMemo } from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+import { Theme } from "../..";
 import {
     MenuClasses,
     MenuComponents,
+    ThemeType,
     UIClickableElement,
     UIContainerElement,
     UILinkElement
-} from "../models";
+} from "../../models";
 
 type MenuProviderProps = {
     components?: Partial<MenuComponents>;
     classes?: Partial<MenuClasses>;
+    theme?: ThemeType;
 };
 
 const MenuContext = createContext<{
@@ -24,17 +28,24 @@ const MenuContext = createContext<{
 
 const MenuProvider = ({ children, ...props }: PropsWithChildren<MenuProviderProps>) => {
     const state = useMemo(() => props, []);
-    return <MenuContext.Provider value={{ state }} children={children} />
+    return <MenuContext.Provider value={{ state }}>
+        <ThemeProvider theme={theme(state.theme)} children={children} />
+    </MenuContext.Provider>
 };
 MenuProvider.displayName = "MenuProvider";
 export default MenuProvider;
 
-const ContainerElement: UIContainerElement = styled.div``;
-const MenuElement: UIContainerElement = styled.ul``;
-const MenuItemElement: UIContainerElement = styled.li``;
+const theme = (t: ThemeType) => _.merge(Theme, t);
+
+const ContainerElement: UIContainerElement = styled.div`
+ `;
+const MenuElement: UIContainerElement = styled.div`
+ `;
+const MenuItemElement: UIContainerElement = styled.div` 
+ `;
 const MenuLinkElement: UILinkElement = styled.a`
-    background: orange; 
     padding: 4px;
+    text-decoration: none;
 `;
 const MenuButtonElement: UIClickableElement = styled.button`
     padding: 4px;

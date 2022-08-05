@@ -1,44 +1,52 @@
-import React, { CSSProperties } from "react";
-import { useMenuComponents, useMenuStyles } from "../MenuProvider";
-import { MenuViewProps } from "../models";
+import React, { useMemo } from "react";
+import styled from "styled-components";
+import { useMenuComponents, useMenuStyles } from "../hooks";
+import { MenuItemType, MenuTreeType, MenuViewProps } from "../models";
 import MenuBar from "./MenuBar";
 
 export { default as MenuBar } from "./MenuBar";
 
-const MenuView = ({
+const buildMenuTree = (
+    items: MenuItemType[], selectedMenuId: string, parentId?: string, path: string[] = []
+): MenuTreeType[] => items
+    .filter(i => i.parentId === parentId)
+    .map<MenuTreeType>(i => ({
+        item: i,
+        path: path.concat(i.id),
+        selected: selectedMenuId === i.id,
+        children: buildMenuTree(items, selectedMenuId, i.id, path.concat(i.id)),
+    }));
+
+export const MenuView = styled(({
+    items = [],
+    selectedMenuId,
+    className = "",
+    classes,
     children,
-    anchor = "left",
-    ...props
+    MenuBarProps,
 }: MenuViewProps) => {
     const { Container } = useMenuComponents();
-    const { contentPanel, root } = useMenuStyles(props.classes);
-    const flexDirection = (): CSSProperties => {
-        switch (anchor) {
-            case "bottom": return ({
-                flexDirection: "column-reverse",
-            })
-            case "right": return ({
-                flexDirection: "row-reverse",
-            })
-            case "top": return ({
-                flexDirection: "column",
-            })
-            case "left":
-            default: return ({
-                flexDirection: "row",
-            })
-        }
-    }
-    return <Container className={root} style={{
-        ...flexDirection(),
-        display: "flex",
-    }}>
-        <MenuBar {...props} />
+    const { contentPanel, root } = useMenuStyles(classes);
+    const menuTree = useMemo(() => buildMenuTree(items, selectedMenuId), [items, selectedMenuId]);
+
+    return <Container className={`${className} ${root}`}>
+        <MenuBar {...MenuBarProps} items={menuTree} />
         <Container
             children={children}
             className={contentPanel}
         />
     </Container>
-};
+})`
+    display: flex;
+    flex-direction: ${p => {
+        switch (p.anchor) {
+            case "bottom": return "column-reverse";
+            case "right": return "row-reverse";
+            case "top": return "column";
+            case "left":
+            default: return "row";
+        }
+    }};
+    background-color: ${p => p.theme.bgColor};
+`;
 MenuView.displayName = "MenuView";
-export default MenuView;
