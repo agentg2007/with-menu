@@ -2,13 +2,13 @@ import _ from "lodash";
 import React, { createContext, PropsWithChildren, useContext, useMemo } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Theme } from "../..";
+import MenuBar from "../../components/MenuBar";
+import MenuLink from "../../components/MenuLink";
 import {
     MenuClasses,
     MenuComponents,
     ThemeType,
-    UIClickableElement,
     UIContainerElement,
-    UILinkElement
 } from "../../models";
 
 type MenuProviderProps = {
@@ -37,35 +37,24 @@ export default MenuProvider;
 
 const theme = (t: ThemeType) => _.merge(Theme, t);
 
-const ContainerElement: UIContainerElement = styled.div`
- `;
-const MenuElement: UIContainerElement = styled.div`
- `;
-const MenuItemElement: UIContainerElement = styled.div` 
- `;
-const MenuLinkElement: UILinkElement = styled.a`
-    padding: 4px;
-    text-decoration: none;
-`;
-const MenuButtonElement: UIClickableElement = styled.button`
-    padding: 4px;
-`;
+const ContainerElement: UIContainerElement = styled.div``;
+const MenuElement: UIContainerElement = styled.div``;
+const MenuItemElement: UIContainerElement = styled.div``;
 
 export const useMenuComponents = () => {
     const { state: { components = {} } } = useContext(MenuContext);
     const {
-        button = MenuButtonElement,
         container = ContainerElement,
-        link = MenuLinkElement,
+        link = MenuLink,
         menu = MenuElement,
         menuitem = MenuItemElement,
     } = components;
     return {
-        Button: button,
         Container: container,
         Link: link,
         Menu: menu,
         MenuItem: menuitem,
+        MenuBar: MenuBar
     }
 };
 

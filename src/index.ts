@@ -9,20 +9,33 @@ export default MenuView;
 export const Theme: ThemeType = {
     bgColor: "white",
     spacing: 8,
-    selected: {
-        bgColor: "#6ea9fe",
-        fontSize: undefined,
-        fontWeight: "bold",
-        textColor: "white",
+    font: {
+        family: "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif",
+        size: 14,
     },
-    texts: {
-        bgColor: "inherit",
-        fontSize: "14px",
-        fontWeight: "normal",
-        textColor: "inherit",
+    contentPanel: {
+        bgColor: "#f3f3f3",
     },
     menuPanel: {
-        bgColor: undefined,
+        bgColor: "#232323f0",
+    },
+    menuItem: {
+        selected: {
+            bgColor: "#dedede",
+            fontSize: undefined,
+            fontWeight: "bold",
+            textColor: "#333",
+        },
+        texts: {
+            bgColor: undefined,
+            fontSize: 14,
+            fontWeight: "normal",
+            textColor: "#fff",
+        },
+        hover: {
+            bgColor: "#338affa8",
+            textColor: "#fff",
+        }
     }
 };
 
