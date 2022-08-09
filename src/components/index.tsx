@@ -60,13 +60,13 @@ MenuView.displayName = "MenuView";
 const ContentPanel = styled(({ className = "", children }: UIElement<PropsWithChildren>) => {
     const { Container } = useMenuComponents();
     return <Container className={className}>
-        <Container>{children}</Container>
+        {children}
     </Container>
 })`
     flex: 1;
     display: flex;
     flex-direction: column;
     background-color: ${({ theme: t }) => t.contentPanel.bgColor};
-    overflow: auto;
+    overflow: hidden;
 `;
 ContentPanel.displayName = "ContentPanel";
