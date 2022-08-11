@@ -21,7 +21,10 @@ export const MenuView = styled(({
     selectedMenuId,
     className = "",
     children,
-    MenuBarProps,
+    anchor,
+    collapsable,
+    collapsed,
+    orientation
 }: MenuViewProps) => {
     const { Container } = useMenuComponents();
     const menuTree = useMemo(() => {
@@ -35,7 +38,13 @@ export const MenuView = styled(({
     }, [items, selectedMenuId]);
 
     return <Container className={className}>
-        <MenuPanel {...MenuBarProps} items={menuTree} />
+        <MenuPanel {...{
+            anchor,
+            collapsable,
+            collapsed,
+            orientation,
+            items: menuTree
+        }} />
         <ContentPanel children={children} />
     </Container>
 })`
@@ -45,13 +54,14 @@ export const MenuView = styled(({
     font-family: ${p => p.theme.font.family};
     font-size: ${p => p.theme.font.size}px;
     flex-direction: ${p => {
-        switch (p.anchor) {
-            case "bottom": return "column-reverse";
-            case "right": return "row-reverse";
-            case "top": return "column";
-            case "left":
-            default: return "row";
-        }
+        // switch (p.anchor) {
+        //     case "bottom": return "column-reverse";
+        //     case "right": return "row-reverse";
+        //     case "top": return "column";
+        //     case "left":
+        //     default: return "row";
+        // }
+        return "row";
     }};
 ` as ComponentType<MenuViewProps>;
 MenuView.displayName = "MenuView";

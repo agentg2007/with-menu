@@ -38,8 +38,7 @@ MenuBarElement.displayName = "MenuBarElement";
 export default styled(MenuBarElement)`
     display: flex;
     flex: 1;
-    flex-direction: ${p => p.orientation === "vertical" ? "row" : "column"};
-	& > div {
+ 	& > div {
 		flex: 1;
 	}
 ` as ComponentType<MenuBarElementProps>;

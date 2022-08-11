@@ -1,17 +1,16 @@
 import { ComponentType, LegacyRef, PropsWithChildren } from "react";
 
-export type MenuBarAnchorType = "left" | "right" | "top" | "bottom";
+export type MenuBarAnchorType = "left"; // | "right"| "top" | "bottom";
 
 export type MenuViewProps = PropsWithChildren<UIElement<{
     items: MenuItemType[];
     selectedMenuId?: string;
-    anchor?: MenuBarAnchorType;
     disabled?: boolean;
     theme?: ThemeType;
-    MenuBarProps?: MenuBarProps;
-}>>;
+} & MenuBarProps>>;
 
 export type MenuBarProps = {
+    anchor?: MenuBarAnchorType;
     collapsable?: boolean;
     collapsed?: boolean;
     orientation?: "vertical" | "horizontal";
