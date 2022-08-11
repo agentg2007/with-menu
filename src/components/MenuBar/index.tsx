@@ -16,6 +16,7 @@ const MenuBarElement = ({
 	const componentId = useId();
 	const { Container } = useMenuComponents();
 	const [collapsed, setCollapsed] = useState(c);
+	useEffect(() => setCollapsed(c), [c]);
 	return <Collapsable
 		className={className}
 		collapsed={collapsed}
@@ -55,15 +56,12 @@ const Collapsable = styled(({
 	onChange(collapsed: boolean): void;
 }>>) => {
 	const { Container } = useMenuComponents();
-	const [state, setState] = useState(collapsed);
-	useEffect(() => setState(collapsed), [collapsed]);
-	useEffect(() => onChange(state), [state]);
 	return <Container className={className}>
 		{children}
 		{
 			collapsable && <button
-				onClick={() => setState(t => !t)}
-				children={!state ? <>&lt;</> : <>&gt;</>}
+				onClick={() => onChange(!collapsed)}
+				children={!collapsed ? <>&lt;</> : <>&gt;</>}
 			/>
 		}
 	</Container>
