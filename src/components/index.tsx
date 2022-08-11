@@ -1,7 +1,7 @@
 import React, { ComponentType, PropsWithChildren, useMemo } from "react";
 import styled from "styled-components";
 import { warn } from "../helpers";
-import { useMenuComponents, useMenuStyles } from "../hooks";
+import { useMenuComponents } from "../hooks";
 import { MenuItemType, MenuTreeType, MenuViewProps, UIElement } from "../models";
 import MenuPanel from "./MenuPanel";
 
@@ -20,12 +20,10 @@ export const MenuView = styled(({
     items = [],
     selectedMenuId,
     className = "",
-    classes,
     children,
     MenuBarProps,
 }: MenuViewProps) => {
     const { Container } = useMenuComponents();
-    const { contentPanel, root } = useMenuStyles(classes);
     const menuTree = useMemo(() => {
         const duplicates = items.filter((item, index, source) => {
             return source.findIndex(i => i.id === item.id) != index;
@@ -36,13 +34,13 @@ export const MenuView = styled(({
         return buildMenuTree(items, selectedMenuId);
     }, [items, selectedMenuId]);
 
-    return <Container className={`${className} ${root}`}>
+    return <Container className={className}>
         <MenuPanel {...MenuBarProps} items={menuTree} />
-        <ContentPanel className={contentPanel} children={children} />
+        <ContentPanel children={children} />
     </Container>
 })`
-    display: flex;
     background-color: ${p => p.theme.bgColor};
+    display: flex;
     flex: 1;
     font-family: ${p => p.theme.font.family};
     font-size: ${p => p.theme.font.size}px;
@@ -57,16 +55,15 @@ export const MenuView = styled(({
     }};
 ` as ComponentType<MenuViewProps>;
 MenuView.displayName = "MenuView";
-const ContentPanel = styled(({ className = "", children }: UIElement<PropsWithChildren>) => {
+
+const ContentPanel = styled(({ className: cn = "", children: ch }: UIElement<PropsWithChildren>) => {
     const { Container } = useMenuComponents();
-    return <Container className={className}>
-        {children}
-    </Container>
+    return <Container className={cn} children={ch} />
 })`
-    flex: 1;
+    background-color: ${({ theme: t }) => t.contentPanel.bgColor ?? t.bgColor};
     display: flex;
+    flex: 1;
     flex-direction: column;
-    background-color: ${({ theme: t }) => t.contentPanel.bgColor};
     overflow: hidden;
 `;
 ContentPanel.displayName = "ContentPanel";

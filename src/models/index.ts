@@ -1,18 +1,15 @@
-import { ComponentType, PropsWithChildren } from "react";
+import { ComponentType, LegacyRef, PropsWithChildren } from "react";
 
-export type IconType = string | ComponentType<any>;
+export type MenuBarAnchorType = "left" | "right" | "top" | "bottom";
 
-export type MenuViewProps = PropsWithChildren<
-    UIElement<{
-        items: MenuItemType[];
-        selectedMenuId?: string;
-        anchor?: "left" | "right" | "top" | "bottom";
-        classes?: Partial<MenuClasses>;
-        disabled?: boolean;
-        theme?: ThemeType;
-        MenuBarProps?: MenuBarProps;
-    }>
->;
+export type MenuViewProps = PropsWithChildren<UIElement<{
+    items: MenuItemType[];
+    selectedMenuId?: string;
+    anchor?: MenuBarAnchorType;
+    disabled?: boolean;
+    theme?: ThemeType;
+    MenuBarProps?: MenuBarProps;
+}>>;
 
 export type MenuBarProps = {
     collapsable?: boolean;
@@ -22,32 +19,20 @@ export type MenuBarProps = {
 
 export type MenuBarElement = ComponentType<UIElement<{
     items: MenuTreeType[];
-    classes?: MenuClasses;
 } & MenuBarProps>>;
 
 export type MenuLinkElementProps = UIElement<{
     href: string;
     title: string;
     collapsed?: boolean;
-    icon?: IconType;
+    icon?: string;
     selected?: boolean;
 }>;
-
-export type MenuClasses = {
-    active: string;
-    contentPanel: string;
-    disabled: string;
-    menuBar: string;
-    menuItem: string;
-    menuLink: string;
-    menuPanel: string;
-    root: string;
-};
 
 export type MenuItemType = {
     id: string;
     title: string;
-    icon?: IconType;
+    icon?: string;
     parentId?: string;
     url?: string;
     onClick?(item: MenuItemType): void;
@@ -67,16 +52,12 @@ export type MenuComponents = {
     menuitem: UIContainerElement;
 };
 
-export type UIElement<P = {}> = {
+export type UIElement<P = {}, R = HTMLElement> = {
+    ref?: LegacyRef<R>;
     className?: string;
 } & P;
 
 export type UIContainerElement = ComponentType<PropsWithChildren<UIElement>>;
-
-export type UILinkElement = ComponentType<PropsWithChildren<UIElement<{
-    href: string;
-    title: string;
-}>>>;
 
 export type ThemedTextStyle = {
     bgColor: string;
@@ -84,8 +65,7 @@ export type ThemedTextStyle = {
     fontWeight: "bold" | "normal" | "bolder" | "lighter";
     textColor: string;
 };
-export type ThemedPanelStyle = {
-    bgColor: string;
+export type ThemedPanelStyle = ThemedTextStyle & {
 };
 export type ThemeType = Partial<{
     bgColor: string;

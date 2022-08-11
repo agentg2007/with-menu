@@ -1,12 +1,12 @@
 import { MenuView } from "./components";
 import { ThemeType } from "./models";
 
-export { useMenuComponents, useMenuStyles } from "./hooks";
-export { MenuItemType, ThemeType } from "./models";
+export { useMenuComponents } from "./hooks";
+export { MenuBarAnchorType, MenuItemType, ThemeType } from "./models";
 export { MenuProvider } from "./providers";
 export default MenuView;
 
-export const Theme: ThemeType = {
+export const DefaultTheme: ThemeType = {
     bgColor: "white",
     spacing: 8,
     font: {
@@ -15,9 +15,15 @@ export const Theme: ThemeType = {
     },
     contentPanel: {
         bgColor: "#f3f3f3",
+        fontSize: 14,
+        fontWeight: "normal",
+        textColor: "#101010"
     },
     menuPanel: {
         bgColor: "#232323f0",
+        fontSize: 14,
+        fontWeight: "normal",
+        textColor: "#fff",
     },
     menuItem: {
         selected: {
@@ -33,7 +39,7 @@ export const Theme: ThemeType = {
             textColor: "#fff",
         },
         hover: {
-            bgColor: "#338affa8",
+            bgColor: "#338aff78",
             textColor: "#fff",
         }
     }

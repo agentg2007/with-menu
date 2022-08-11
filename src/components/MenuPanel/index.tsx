@@ -1,5 +1,5 @@
-import React, { ComponentType } from "react"
-import styled from "styled-components"
+import React, { ComponentType } from "react";
+import styled from "styled-components";
 import { MenuBarProps, MenuTreeType, UIElement } from "../../models";
 import { useMenuComponents } from "../../providers/MenuProvider";
 
@@ -27,4 +27,7 @@ const MenuPanel: MenuPanelElement = ({
 MenuPanel.displayName = "MenuPanel";
 export default styled(MenuPanel)`
     background-color: ${p => p.theme.menuPanel?.bgColor ?? "inherit"};
-` as MenuPanelElement;
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+ ` as MenuPanelElement;

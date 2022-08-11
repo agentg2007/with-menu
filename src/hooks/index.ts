@@ -1,1 +1,1 @@
-export { useMenuComponents, useMenuStyles } from "../providers/MenuProvider"
+export { useMenuComponents } from "../providers/MenuProvider";

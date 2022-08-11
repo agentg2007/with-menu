@@ -1,11 +1,11 @@
-import React, { ComponentType } from "react";
+import React, { ComponentType, forwardRef } from "react";
 import styled from "styled-components";
 import { MenuLinkElementProps } from "../../models";
 
-const MenuLinkElement = ({
+const MenuLinkElement = forwardRef<HTMLAnchorElement, MenuLinkElementProps>(({
     className = "", href, title, icon, collapsed = false
-}: MenuLinkElementProps) => {
-    return <a className={className} href={href} title={title}>
+}: MenuLinkElementProps, ref) => {
+    return <a ref={ref} className={className} href={href} title={title}>
         {
             typeof icon === "string" && <img src={icon} height={24} alt={`ICON:${title}`} />
         }
@@ -13,9 +13,10 @@ const MenuLinkElement = ({
             !collapsed && <span children={title} />
         }
     </a>
-};
+});
 MenuLinkElement.displayName = "MenuLinkElement";
 export default styled(MenuLinkElement)`
+    color: inherit;
     display: flex;
     flex: 1;
     flex-direction: row; 
@@ -26,8 +27,8 @@ export default styled(MenuLinkElement)`
         margin-right: ${({ theme: t }) => t.spacing}px;
     }
     & > span {
+        color: inherit;
         margin: auto 0;
-        color: ${({ theme: t, selected: s }) => (s ? t.menuItem.selected : t.menuItem.texts).textColor};
         font-size: ${({ theme: t }) => t.menuItem.texts.fontSize ?? t.font.size}px;
         font-weight: ${({ theme: t, selected: s }) => (s ? t.menuItem.selected : t.menuItem.texts).fontWeight};
     }
