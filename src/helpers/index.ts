@@ -1,3 +1,4 @@
+import { MenuBarAnchorType } from "../models";
 
 export const BlankMethod = () => { };
 
@@ -18,3 +19,15 @@ const writeLog = (
 export const log = (...e: any) => writeLog("default", ...e);
 export const error = (...e: any[]) => writeLog("error", ...e);
 export const warn = (...e: any[]) => writeLog("warn", ...e);
+
+export const Styles = {
+    flexDirection: (anchor: MenuBarAnchorType): "column" | "column-reverse" | "row" | "row-reverse" => {
+        switch (anchor) {
+            //case "bottom": return "column-reverse";
+            //case "top": return "column";
+            case "right": return "row-reverse";
+            case "left":
+            default: return "row";
+        }
+    }
+}

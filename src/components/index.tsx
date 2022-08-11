@@ -1,6 +1,6 @@
 import React, { ComponentType, PropsWithChildren, useMemo } from "react";
 import styled from "styled-components";
-import { warn } from "../helpers";
+import { Styles, warn } from "../helpers";
 import { useMenuComponents } from "../hooks";
 import { MenuItemType, MenuTreeType, MenuViewProps, UIElement } from "../models";
 import MenuPanel from "./MenuPanel";
@@ -53,16 +53,7 @@ export const MenuView = styled(({
     flex: 1;
     font-family: ${p => p.theme.font.family};
     font-size: ${p => p.theme.font.size}px;
-    flex-direction: ${p => {
-        // switch (p.anchor) {
-        //     case "bottom": return "column-reverse";
-        //     case "right": return "row-reverse";
-        //     case "top": return "column";
-        //     case "left":
-        //     default: return "row";
-        // }
-        return "row";
-    }};
+    flex-direction: ${p => Styles.flexDirection(p.anchor)};
 ` as ComponentType<MenuViewProps>;
 MenuView.displayName = "MenuView";
 

@@ -1,6 +1,6 @@
 import { ComponentType, LegacyRef, PropsWithChildren } from "react";
 
-export type MenuBarAnchorType = "left"; // | "right"| "top" | "bottom";
+export type MenuBarAnchorType = "left" | "right"; // | "top" | "bottom";
 
 export type MenuViewProps = PropsWithChildren<UIElement<{
     items: MenuItemType[];
@@ -11,6 +11,7 @@ export type MenuViewProps = PropsWithChildren<UIElement<{
 
 export type MenuBarProps = {
     anchor?: MenuBarAnchorType;
+    behaviour?: "expand-all" | "expand-selected";
     collapsable?: boolean;
     collapsed?: boolean;
     orientation?: "vertical" | "horizontal";
@@ -45,10 +46,10 @@ export type MenuTreeType = {
 };
 
 export type MenuComponents = {
-    container: UIContainerElement;
+    container: ContainerElement;
     link: ComponentType<MenuLinkElementProps>;
-    menu: UIContainerElement;
-    menuitem: UIContainerElement;
+    menu: ContainerElement;
+    menuitem: ContainerElement;
 };
 
 export type UIElement<P = {}, R = HTMLElement> = {
@@ -56,7 +57,7 @@ export type UIElement<P = {}, R = HTMLElement> = {
     className?: string;
 } & P;
 
-export type UIContainerElement = ComponentType<PropsWithChildren<UIElement>>;
+export type ContainerElement = ComponentType<PropsWithChildren<UIElement>>;
 
 export type ThemedTextStyle = {
     bgColor: string;

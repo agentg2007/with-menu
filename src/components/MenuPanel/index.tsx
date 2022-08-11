@@ -11,17 +11,19 @@ type MenuPanelElement = ComponentType<MenuPanelProps>;
 
 const MenuPanel: MenuPanelElement = ({
     items = [],
+    anchor,
     className = "",
     collapsable = true,
     collapsed = false,
 }) => {
     const { Container, MenuBar } = useMenuComponents();
     return <Container className={className}>
-        <MenuBar
-            items={items}
-            collapsable={collapsable}
-            collapsed={collapsed}
-        />
+        <MenuBar {...{
+            anchor,
+            collapsable,
+            collapsed,
+            items,
+        }} />
     </Container>
 };
 MenuPanel.displayName = "MenuPanel";
@@ -30,4 +32,4 @@ export default styled(MenuPanel)`
     display: flex;
     flex-direction: column;
     max-width: 300px;
- ` as MenuPanelElement;
+` as MenuPanelElement;

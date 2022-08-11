@@ -7,7 +7,7 @@ import MenuLink from "../../components/MenuLink";
 import {
     MenuComponents,
     ThemeType,
-    UIContainerElement
+    ContainerElement
 } from "../../models";
 
 type MenuProviderProps = {
@@ -35,7 +35,7 @@ export default MenuProvider;
 
 const theme = (t: ThemeType) => _.merge(DefaultTheme, t);
 
-const ContainerElement: UIContainerElement = styled.div``;
+const ContainerElement: ContainerElement = styled.div``;
 
 export const useMenuComponents = () => {
     const { state: { components = {} } } = useContext(MenuContext);
