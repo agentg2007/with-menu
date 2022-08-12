@@ -1,5 +1,5 @@
 {
-	"name": "@nthity/with-menubar",
+	"name": "@nthity/react-menu",
 	"version": "1.0.0",
 	"description": "View with MenuBar and Content Panel.",
 	"main": "index.js",
