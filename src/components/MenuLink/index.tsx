@@ -9,12 +9,11 @@ const MenuLinkElement = forwardRef<HTMLAnchorElement, MenuLinkElementProps>(({
         {
             typeof icon === "string" && <img src={icon} height={24} alt={`ICON:${title}`} />
         }
-        {
-            !collapsed && <span children={title} />
-        }
+        <span data-collapsed={collapsed} children={title} />
     </a>
 });
 MenuLinkElement.displayName = "MenuLinkElement";
+
 export default styled(MenuLinkElement)`
     color: inherit;
     display: flex;
@@ -31,5 +30,10 @@ export default styled(MenuLinkElement)`
         margin: auto 0;
         font-size: ${({ theme: t }) => t.menuItem.texts.fontSize ?? t.font.size}px;
         font-weight: ${({ theme: t, selected: s }) => (s ? t.menuItem.selected : t.menuItem.texts).fontWeight};
+        display: ${p => p.collapsed ? "none" : "block"};
+        &[data-collapsed=true] {
+        }
+        &[data-collapsed=false] {
+        }  
     }
 ` as ComponentType<MenuLinkElementProps>;

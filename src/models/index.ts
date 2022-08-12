@@ -2,6 +2,8 @@ import { ComponentType, LegacyRef, PropsWithChildren } from "react";
 
 export type MenuBarAnchorType = "left" | "right"; // | "top" | "bottom";
 
+export type MenuBarExpandBehaviour = "all" | "selected-path";
+
 export type MenuViewProps = PropsWithChildren<UIElement<{
     items: MenuItemType[];
     selectedMenuId?: string;
@@ -11,7 +13,7 @@ export type MenuViewProps = PropsWithChildren<UIElement<{
 
 export type MenuBarProps = {
     anchor?: MenuBarAnchorType;
-    behaviour?: "expand-all" | "expand-selected";
+    behaviour?: MenuBarExpandBehaviour;
     collapsable?: boolean;
     collapsed?: boolean;
     orientation?: "vertical" | "horizontal";

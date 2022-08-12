@@ -16,7 +16,10 @@ const MenuItemElement = styled(({
     const { Container, Link } = useMenuComponents();
     return <>
         <Container className={className}>
-            <Link ref={e => i.selected && e?.scrollIntoView()}
+            <Link ref={e => i.selected && e?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            })}
                 href={i.item.url}
                 title={i.item.title}
                 icon={i.item.icon}
